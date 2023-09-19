@@ -9,6 +9,8 @@ speaker.volume = 70 #语音合成音量
 firstRun = True
 debugMode = True if sys.gettrace() else False
 headers = {'User-Agent': 'Mozilla/5.0 (compatible; cencEarthquakeInfoApp/0.1)'}
+response = requests.Session()
+response.trust_env = False
 
 if debugMode:
     print('debug模式运行中')
@@ -21,10 +23,10 @@ else:
 
 def getData(url):
     try:
-        global response
-        response = requests.get(url, headers=headers)
-        if response.status_code == 200:
-            return response.json()
+        global res
+        res = response.get(url, headers=headers)
+        if res.status_code == 200:
+            return res.json()
         else:
             print('Failed to fetch data from URL:', url)
     except Exception as e:
@@ -44,7 +46,7 @@ def timestampConvert(timestamp):
     return timeConverted
 
 def getContent():
-    text = response.text
+    text = res.text
     text = json.loads(text)
     global epicenter, epicenterLat, epicenterLon, depth, magnitude, timestamp
     epicenter = text['No0']['epicenter']
