@@ -8,7 +8,7 @@ toaster = ToastNotifier()
 speaker.volume = 70 #语音合成音量
 firstRun = True
 debugMode = True if sys.gettrace() else False
-headers = {'User-Agent': 'Mozilla/5.0 (compatible; cencEarthquakeInfoApp/0.1.2)'}
+headers = {'User-Agent': 'Mozilla/5.0 (compatible; cencEarthquakeInfoApp/0.1.4)'}
 response = requests.Session()
 response.trust_env = False
 
@@ -98,7 +98,8 @@ def getContent():
 def checkUrl(url):
     global prevData, firstRun
     while True:
-        currentData = getData(url)
+        _ = str(int(time.time()))
+        currentData = getData(url+'?_='+_)
         
         if currentData is not None:
             if prevData is None:
